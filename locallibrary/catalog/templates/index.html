@@ -1,0 +1,44 @@
+{% extends 'base_structure.html' %}
+
+{% block main %}
+
+    {{ json_data|json_script:"vue-data"}}
+
+    <div class="container">
+        <div class="col s12 center">
+            <h1>Local Library</h1>
+            <div class="divider"></div>
+            <p>Welcome to the Local Library, a website build by <em>Ryan Manzer</em>, developed by <em>Mozilla Developer Network</em></p>
+        </div>
+        <div id="app" class="col s8 offset-s2">
+            <p>[[ message ]]</p>
+            <ul>
+                <li v-for="(value, name) in content">
+                [[name]]: [[value]]
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock main %}
+
+
+{% block more_js %}
+<script>
+    var app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            message: 'Here is the content we currently have:',
+            content: {}
+        },
+        methods: {
+            parseData: function() {
+                this.content = JSON.parse(document.getElementById('vue-data').textContent);
+            }
+        },
+        mounted() {
+            this.parseData()
+        }
+    })
+</script>
+{% endblock more_js %}

@@ -1,0 +1,16 @@
+{% extends 'base_structure.html' %}
+
+{% block main %}
+<div id="app">
+
+</div>
+{% endblock main %}
+
+{% block more_js %}
+<script>
+    var app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+    })
+</script>
+{% endblock more_js %}

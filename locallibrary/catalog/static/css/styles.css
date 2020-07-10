@@ -1,0 +1,39 @@
+
+html {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    grid-template: auto 1fr auto/ auto 1fr auto;
+    height: 100%;
+}
+
+header {
+    grid-column: 1 / 4;
+}
+.nav-wrapper {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-image: linear-gradient(to right, #d7d2cc 0%, #304352 100%);
+}
+
+
+.left-sidebar {
+    grid-column: 1 / 2;
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+}
+
+main {
+    grid-column: 2 / 3;
+
+}
+
+.right-sidebar {
+    grid-column: 3 / 4;
+}
+
+footer {
+    grid-column: 1 / 4;
+    background-image: linear-gradient(-225deg, #7085B6 0%, #87A7D9 50%, #DEF3F8 100%);
+}

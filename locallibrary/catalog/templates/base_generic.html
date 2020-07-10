@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block title %}
+            <title>Local Library</title>
+        {% endblock title %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        {% block more_style %} <!-- If a specific template needs custom style rules-->
+        {% endblock more_style %}
+    </head>
+    <body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        {% block header %}  <!-- Header section -->
+        {% endblock header %}
+        
+        {% block sidebar %} <!-- Side nav section-->
+        {% endblock sidebar %}
+        
+        {% block content %} <!-- Content section-->
+        {% endblock content %}
+        
+        {% block footer %} <!-- Footer section -->
+        {% endblock footer %}
+
+        <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {% block more_js %} <!-- Where we will load additional Javascript-->
+    {% endblock more_js %}
+    </body>
+</html>

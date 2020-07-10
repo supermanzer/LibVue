@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block header %}  
+    {% include 'header_generic.html' %}
+{% endblock header %}   
+
+{% block sidebar %}
+    {% include 'generic_sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content %}
+<main>
+    {% block main %}
+    {% endblock main %}
+</main>
+{% endblock content %}
+
+{% block footer %}  
+    {% include 'generic_footer.html' %}
+{% endblock footer %}
