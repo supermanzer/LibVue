@@ -1,4 +1,3 @@
-
 html {
     height: 100%;
 }
@@ -12,6 +11,7 @@ body {
 header {
     grid-column: 1 / 4;
 }
+
 .nav-wrapper {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -36,4 +36,9 @@ main {
 footer {
     grid-column: 1 / 4;
     background-image: linear-gradient(-225deg, #7085B6 0%, #87A7D9 50%, #DEF3F8 100%);
+}
+
+.book-card-image {
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+    min-height: 10rem;
 }

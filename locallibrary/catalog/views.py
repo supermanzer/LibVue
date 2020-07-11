@@ -39,9 +39,28 @@ class BookListView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context["books_objects"] = [
             {
-                'url': book.get_absolute_url,
+                'url': book.get_absolute_url(),
                 'title': book.title,
-                'author': book.author
+                'author': str(book.author),
+                'copies_available': book.copies.filter(status__exact='a').count()
             } for book in context['object_list']
         ]
+        return context
+
+
+class BookDetail(generic.DetailView):
+    model = Book
+    hidden_fields = [
+        'id',
+        'isbn'
+    ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["book_json"] = {
+            field.name: str(getattr(context['book'], field.name))
+            for field in context['book']._meta.fields
+            if field.name not in self.hidden_fields
+        }
+        context['book_json']['genres'] = context['book'].display_genre
         return context

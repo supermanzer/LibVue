@@ -22,6 +22,10 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def display_genre(self):
+        return ", ".join([genre.name for genre in self.genre.all()])
+
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
@@ -40,7 +44,8 @@ class BookInstance(models.Model):
     )
     # FIELDS
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(
+        'Book', on_delete=models.SET_NULL, null=True, related_name='copies')
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
     status = models.CharField(

@@ -1,0 +1,44 @@
+{% extends 'base_structure.html' %}
+
+{% block main %}
+<div class="container">
+    {{ book_json|json_script:"vue-data"}}
+    <div id="app" class="row">
+        <div class="col s8 offset-s2">
+            <div class="card">
+                <div class="card-image">
+                    <div class="book-card-image"></div>
+                    <span class="card-title"><h4>[[book.title]]</h4></span>
+                </div>
+                <div class="card-content">
+                    <p>by [[book.author]]</p>
+                    <p><strong>Summary: </strong><span>[[book.summary]]</span></p>
+                    <p><strong>Genres: </strong> [[book.genres]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
+
+{% block more_js%}
+<script>
+    var app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+            book: {}
+        },
+        methods: {
+            parseBook: function() {
+                this.book = JSON.parse(document.getElementById('vue-data').textContent)
+            }
+        },
+        mounted() {
+            this.parseBook();
+        }
+    })
+</script>
+
+{% endblock more_js %}
