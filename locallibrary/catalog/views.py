@@ -52,7 +52,6 @@ class BookDetail(generic.DetailView):
     model = Book
     hidden_fields = [
         'id',
-        'isbn'
     ]
 
     def get_context_data(self, **kwargs):
@@ -63,4 +62,12 @@ class BookDetail(generic.DetailView):
             if field.name not in self.hidden_fields
         }
         context['book_json']['genres'] = context['book'].display_genre
+        context['book_json']['author_id'] = context['book'].author.id
+        context['book_json']['copies'] = [{
+            'status': copy.status,
+            'display_status': copy.get_status_display(),
+            'due_back': copy.due_back,
+            'imprint': copy.imprint,
+            'id': copy.id
+        } for copy in context['book'].copies.all()]
         return context

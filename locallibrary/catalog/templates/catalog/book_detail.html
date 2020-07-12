@@ -1,20 +1,40 @@
 {% extends 'base_structure.html' %}
 
+
 {% block main %}
 <div class="container">
     {{ book_json|json_script:"vue-data"}}
     <div id="app" class="row">
         <div class="col s8 offset-s2">
-            <div class="card">
-                <div class="card-image">
-                    <div class="book-card-image"></div>
-                    <span class="card-title"><h4>[[book.title]]</h4></span>
-                </div>
-                <div class="card-content">
-                    <p>by [[book.author]]</p>
-                    <p><strong>Summary: </strong><span>[[book.summary]]</span></p>
-                    <p><strong>Genres: </strong> [[book.genres]]</p>
-                </div>
+        
+        <h3>[[book.title]]</h3>
+        
+        <div class="book-content">
+            <p>by <a href="">[[book.author]]</a></p>
+            <p><strong>Summary: </strong><span>[[book.summary]]</span></p>
+            <p><strong>Genres: </strong> [[book.genres]]</p>
+            <p> <strong>ISBN: </strong> [[book.isbn]]</p>
+            <div class="divider"></div>
+            <div v-if="hasCopies" style="margin-left: 1rem; margin-top 2rem;">
+                <h5 class="gre-text text-darken-2">Copies</h5>
+                {% comment %} <div v-for="copy in book.copies" :key="copy.id">
+                    <div class="divider grey darken-1"></div>
+                    <span v-if="copy.status === 'a'" class="green-text text-darken-2">[[copy.display_status]]</span>
+                    <span v-else-if="copy.status === 'o'" class="amber-text text-darken-2">[[copy.display_status]]</span>
+                    <span v-else-if="copy.status === 'r'" class="amber-text text-darken-2">[[copy.display_status]]</span>
+                    <span v-else-if='copy.status === "m"' class="red-text text-darken-2">[[copy.display_status]]</span>
+                        <span v-if="copy.due_back" class="secondary-content">Due back: [[copy.due_back]]</span>
+                    <p>Imprint: [[copy.imprint]]</p>
+                    <p class="grey-text text-lighten-1">ID: [[copy.id]]</p>
+                </div> {% endcomment %}
+                <book-copy v-for="copy in book.copies" :key="copy.id"
+                    :status="copy.status" :display_status="copy.display_status"
+                    :imprint="copy.imprint" :id="copy.id" :due_back="copy.due_back"></book-copy>
+            </div>
+            <div v-else class='alert alert-warning'>
+                <h4>No Copies</h4>
+                <div class="divider"></div>
+                <p>This book has no copies at this library.  I wonder why we even have it listed?</p>
             </div>
         </div>
     </div>
@@ -24,18 +44,48 @@
 
 {% block more_js%}
 <script>
+    Vue.component('book-copy', {
+        delimiters: ["[[", "]]"],
+        props: {
+            'status': {required: true, type: String},
+            'display_status': {required: true, type: String},
+            'imprint': {required: true, type: String},
+            'id': {required: true, type: String},
+            'due_back': {required: false, type: String}
+        },
+        data() {
+            return {
+                isAvailable: false,
+                isMaintenance: false,
+            }
+        },
+        template:`
+            <div>
+                <div class="divider grey darken-1"></div>
+                <span v-if="status === 'a'" class="green-text text-darken-2">[[display_status]]</span>
+                <span v-else-if="status === 'o'" class="amber-text text-darken-2">[[display_status]]</span>
+                <span v-else-if="status === 'r'" class="amber-text text-darken-2">[[display_status]]</span>
+                <span v-else-if='status === "m"' class="red-text text-darken-2">[[display_status]]</span>
+                    <span v-if="due_back" class="secondary-content">Due back: [[due_back]]</span>
+                <p>Imprint: [[imprint]]</p>
+                <p class="grey-text text-lighten-1">ID: [[id]]</p>
+            </div>
+        `
+    })
     var app = new Vue({
         el: '#app',
         delimiters: ['[[', ']]'],
         data: {
-            book: {}
+            book: {},
+            hasCopies: false
         },
         methods: {
             parseBook: function() {
                 this.book = JSON.parse(document.getElementById('vue-data').textContent)
+                this.hasCopies = this.book.copies.length > 0
             }
         },
-        mounted() {
+        created() {
             this.parseBook();
         }
     })

@@ -19,6 +19,9 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13)
     genre = models.ManyToManyField('Genre')
 
+    class Meta:
+        ordering = ['author', ]
+
     def __str__(self):
         return self.title
 

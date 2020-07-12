@@ -42,3 +42,24 @@ footer {
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
     min-height: 10rem;
 }
+
+.alert {
+    padding: .5rem;
+    border-radius: 20px;
+    box-shadow: 2px 4px #aa99aa;
+}
+
+.alert-info {
+    background-color: #bbdefb;
+    color: #0d47a1;
+}
+
+.alert-warning {
+    background-color: #ffecb3;
+    color: #ff6f00;
+}
+
+.alert-danger {
+    background-color: #ffcdd2;
+    color: #b71c1c;
+}
