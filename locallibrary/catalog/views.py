@@ -71,3 +71,40 @@ class BookDetail(generic.DetailView):
             'id': copy.id
         } for copy in context['book'].copies.all()]
         return context
+
+
+class AuthorList(generic.ListView):
+    model = Author
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["vue_data"] = [
+            {
+                'first_name': author.first_name,
+                'last_name': author.last_name,
+                'date_of_birth': author.date_of_birth,
+                'date_of_death': author.date_of_death,
+                'url': author.get_absolute_url()
+            } for author in context['object_list']
+        ]
+        return context
+
+
+class AuthorDetail(generic.DetailView):
+    model = Author
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["vue_data"] = {
+            f.name: str(getattr(context['object'], f.name))
+            for f in self.model._meta.fields
+        }
+        context['vue_data']['books'] = [
+            {
+                'Title': book.title,
+                'Summary': book.summary,
+                'ISBN': book.isbn
+            }
+            for book in context['object'].book_set.all()
+        ]
+        return context

@@ -1,0 +1,20 @@
+{% extends 'base_structure.html' %}
+
+{% load static %}
+
+
+{% block main %}
+<div class="collection" id="author-detail">
+    {{vue_data|json_script:"vue-data"}}
+    <div class="row">
+        <div class="col s8 offset-s2">
+            <author-detail :author="author"></author-detail
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
+
+{% block more_js %}
+<script src="{% static 'catalog/js/main.js' %}"></script>
+{% endblock more_js %}

@@ -1,5 +1,5 @@
 {% extends 'base_structure.html' %}
-
+{% load static %}
 {% block main %}
 <div id="app">
 {{ books_objects|json_script:"vue-data"}}
@@ -10,17 +10,7 @@
                     <li class="collection-header">
                         <h4>Current Books</h4>
                     </li>
-                    <li v-for="book in books" :key="book.title" class="collection-item avatar">
-                        <div>
-                            <i class="material-icons circle">book</i>
-                            <span class="title">[[book.title]]</span> 
-                            <p>by [[book.author]]</p> 
-                            <p>[[book.copies_available]] copies available</p>
-                            <a :href="book.url" class="secondary-content tooltipped" data-tooltip="View book details">
-                                <i class="material-icons">launch</i>
-                            </a>
-                        </div>
-                    </li>
+                   <book-list-item v-for="book in books" :key="book.id" :book="book"></book-list-item>
                 </ul>
                 <div v-else class="alert alert-info">
                     <h3>No Books</h3>
@@ -34,27 +24,5 @@
 {% endblock main %}
 
 {% block more_js %}
-<script>
-    var app = new Vue({
-        delimiters: ['[[', ']]'],
-        el: '#app',
-        data: {
-            books: []
-        },
-        methods: {
-            parseBooks: function() {
-                this.books = JSON.parse(document.getElementById('vue-data').textContent);
-            },
-            uiInit: function() {
-                document.addEventListener('DOMContentLoaded', function() {
-                    M.Tooltip.init(document.querySelectorAll('.tooltipped'));
-                });
-            }
-        },
-        mounted() {
-            this.parseBooks();
-            this.uiInit();
-        }
-    })
-</script>
+<script src="{% static 'catalog/js/main.js' %}"></script>
 {% endblock more_js %}
